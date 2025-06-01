@@ -17,6 +17,11 @@ const Header = () => {
             Absence Request Form
           </button>
         </Link>
+        <Link to="/userabsence">
+          <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition">
+            Absence Requests
+          </button>
+        </Link>
         <Link to="/login">
           <button className="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg transition">
             Login

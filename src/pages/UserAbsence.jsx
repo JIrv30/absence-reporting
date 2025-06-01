@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import db from '../appwrite/databases'
+import { getUser } from '../appwrite/auth'
 
 const UserAbsence = () => {
   const [absence, setAbsence] = useState([])
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
-    init()
-  }, [])
-
-  const init = async () => {
+    const init = async () => {
     try {
+      const userData = await getUser()
+      setUser(userData)
+      
       const response = await db["Leave of Absence Request Collection"].list()
       setAbsence(response.documents)
     } catch (err) {
       console.error("Failed to fetch absences", err)
     }
   }
+    init()
+  }, [])
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-semibold mb-4">Your Leave of Absence Requests</h2>
+      <h2 className="text-2xl font-semibold mb-4">{user && <p>{user?.name}</p>} Leave of Absence Requests</h2>
 
       {absence.length === 0 ? (
         <p className="text-gray-500">No absence records found.</p>
