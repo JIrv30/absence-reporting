@@ -53,7 +53,7 @@ function App() {
             <Route element={<Home />} path='/' />
             <Route element={<LoginPage />} path='login' />
             <Route element={<ProtectedRoutes />}>
-              <Route element={<UserAbsence user={user} isAdmin={isAdmin} />} path='/UserAbsence' />  
+              <Route element={<UserAbsence user={user} />} path='/UserAbsence' />  
               <Route element={<AdminAbsence user={user} isAdmin={isAdmin} /> } path='/AdminAbsence' /> 
             <Route element={<Form user={user} isAdmin={isAdmin} />} path='/form' />
             </Route>

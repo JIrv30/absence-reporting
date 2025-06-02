@@ -2,17 +2,13 @@ import React, { useEffect, useState } from "react";
 import db from '../appwrite/databases';
 import { getUser } from '../appwrite/auth';
 
-function AbsenceRequestTable() {
-  const [user, setUser] = useState(null);
+function AbsenceRequestTable({user}) {
   const [absence, setAbsence] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const init = async () => {
       try {
-        const userData = await getUser();
-        setUser(userData);
-
         const response = await db["Leave of Absence Request Collection"].list();
         setAbsence(response.documents);
       } catch (err) {
@@ -70,7 +66,7 @@ function AbsenceRequestTable() {
               return (
                 <tr
                   key={doc.$id}
-                  className={`border-t hover:bg-gray-50 ${rowColor}`}
+                  className={`border-t ${rowColor}`}
                 >
                   <td className="py-1 px-2">{doc.name}</td>
                   <td className="py-1 px-2">{doc.department}</td>

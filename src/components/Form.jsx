@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import db from '../appwrite/databases';
-import { getUser } from '../appwrite/auth';
 
-const Form = () => {
+
+const Form = ({user}) => {
   const formRef = useRef(null)
   const [formData, setFormData] = useState({})
   const [loading, setLoading] = useState(true)
@@ -12,7 +12,6 @@ const Form = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const user = await getUser()
         setFormData(prev => ({
           ...prev,
           name: user.name,
