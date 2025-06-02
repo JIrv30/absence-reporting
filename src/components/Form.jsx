@@ -78,8 +78,6 @@ const Form = () => {
     }
   }
 
-  console.log(formData)
-
   if (loading) return <p className='p-6'>Loading user info ...</p>
 
   return (
