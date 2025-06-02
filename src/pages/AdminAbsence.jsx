@@ -21,9 +21,23 @@ const AdminAbsence = ({user, isAdmin}) => {
     init();
   }, []);
 
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await db['Leave of Absence Request Collection'].update(id, {authorised: newStatus})
+      setAbsence(prev =>
+        prev.map(doc => doc.$id === id ? {
+          ...doc, 
+          authorised: newStatus
+        } : doc)
+      )
+    } catch (error) {
+      console.error('Failed to update status', error)
+    }
+  }
+
   if (loading) return <div>Loading...</div>;
 
-  if (!user) return <div>No user logged in.</div>;
+  if (!user || !isAdmin) return <div>Access Denied</div>;
   
   
   return (
@@ -78,7 +92,17 @@ const AdminAbsence = ({user, isAdmin}) => {
               )}
             </td>
             <td className="py-1 px-2">{doc.toil_details}</td>
-            <td className="py-1 px-2">{doc.authorised}</td>
+            <td className="py-1 px-2">
+                  <select
+                    value={doc.authorised}
+                    onChange={(e) => handleStatusChange(doc.$id, e.target.value)}
+                    className="text-xs border rounded px-1 py-0.5"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Authorised">Authorised</option>
+                    <option value="Rejected">Rejected</option>
+                  </select>
+                </td>
           </tr>
         )
       })}
