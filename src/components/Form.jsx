@@ -136,7 +136,7 @@ const Form = ({user}) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Break Duty</label>
+          <label className="block text-sm font-medium text-gray-700">Break Duty (Leave blank if not required)</label>
           <select name="break_cover" value={formData.break_cover || ''} onChange={handleChange} className="w-full mt-1 p-2 border rounded-md">
             <option value="">Select...</option>
             <option value="Break 1">Break 1</option>
@@ -146,17 +146,17 @@ const Form = ({user}) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Staff Covering Break Duty</label>
+          <label className="block text-sm font-medium text-gray-700">Staff Covering Break Duty (Leave blank if not required)</label>
           <input name="staff_cover_break" value={formData.staff_cover_break || ''} onChange={handleChange} className="w-full mt-1 p-2 border rounded-md" />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Appointment Time (if medical)</label>
+          <label className="block text-sm font-medium text-gray-700">Appointment Time (if medical) (Leave blank if not required)</label>
           <input type="datetime-local" name="appointment_time" value={formData.appointment_time || ''} onChange={handleChange} className="w-full mt-1 p-2 border rounded-md" />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">How was TOIL acquired?</label>
+          <label className="block text-sm font-medium text-gray-700">How was TOIL acquired? (Leave blank if not required)</label>
           <input name="toil_details" value={formData.toil_details || ''} onChange={handleChange} className="w-full mt-1 p-2 border rounded-md" />
         </div>
 
