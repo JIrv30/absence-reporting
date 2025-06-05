@@ -4,7 +4,7 @@ import logo from '../assets/KGABP.png'
 
 
 
-const Header = ({user, isAdmin}) => {
+const Header = ({user, teamLeader}) => {
   
    
   return (
@@ -26,9 +26,9 @@ const Header = ({user, isAdmin}) => {
              {`${user.name}'s Absence Requests`}
           </button>
         </Link>
-        {isAdmin && <Link to="/AdminAbsence">
+        {teamLeader && <Link to={teamLeader==='Admin' ? 'Adminabsence' : '/Teamabsence'}>
           <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition">
-            All Requests
+            {teamLeader==='Admin' ? 'All Requests' : 'Team Requests'}
           </button>
         </Link>}
         <Link to="/login">

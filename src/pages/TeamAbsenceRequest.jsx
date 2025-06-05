@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 import db from '../appwrite/databases';
-import CalendarAbsenceView from "./CalenderAbsenceView";
 
-
-const AdminAbsence = ({user, teamLeader}) => {
-  
+const TeamAbsenceRequest = ({user, teamLeader}) => {
   const [absence, setAbsence] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [calendarView, setCalendarView] = useState(false)
 
   useEffect(() => {
     const init = async () => {
@@ -23,37 +19,16 @@ const AdminAbsence = ({user, teamLeader}) => {
     init();
   }, []);
 
-  const handleStatusChange = async (id, newStatus) => {
-    try {
-      await db['Leave of Absence Request Collection'].update(id, {authorised: newStatus})
-      setAbsence(prev =>
-        prev.map(doc => doc.$id === id ? {
-          ...doc, 
-          authorised: newStatus
-        } : doc)
-      )
-    } catch (error) {
-      console.error('Failed to update status', error)
-    }
-  }
-
   if (loading) return <div>Loading...</div>;
 
-  if (!user || teamLeader!=='Admin') return <div>Access Denied</div>;
+  if (!teamLeader) return <div>Access Denied</div>;
+
+  const filteredTeamAbsence = absence.filter((doc) => doc.department === teamLeader);
   
   
   return (
     <div className="overflow-x-auto">
-      <div className="mb-4">
-  
-    <button
-     onClick={()=>setCalendarView(prev=>!prev)}
-     className="bg-purple-300 text-black px-3 py-1 rounded hover:bg-purple-400 hover:text-white text-sm ">
-      {calendarView ? 'View Table' : 'View Calendar'}
-    </button>
-{calendarView ? (<CalendarAbsenceView absence={absence} user={user} teamLeader={teamLeader} />) : (
-  <div className="overflow-x-auto">
-    <table className="min-w-full table-auto text-xs">
+  <table className="min-w-full table-auto text-xs">
     <thead className="bg-gray-100 text-gray-700">
       <tr>
         <th className="text-left py-1 px-2">Name</th>
@@ -70,7 +45,7 @@ const AdminAbsence = ({user, teamLeader}) => {
       </tr>
     </thead>
     <tbody>
-      {absence.map((doc) => {
+      {filteredTeamAbsence.map((doc) => {
         const rowColor =
           doc.authorised === 'Pending' ? 'bg-orange-100' :
           doc.authorised === 'Rejected' ? 'bg-red-100' :
@@ -103,29 +78,15 @@ const AdminAbsence = ({user, teamLeader}) => {
               )}
             </td>
             <td className="py-1 px-2">{doc.toil_details}</td>
-            <td className="py-1 px-2">
-                  <select
-                    value={doc.authorised}
-                    onChange={(e) => handleStatusChange(doc.$id, e.target.value)}
-                    className="text-xs border rounded px-1 py-0.5"
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Authorised">Authorised</option>
-                    <option value="Rejected">Rejected</option>
-                  </select>
-                </td>
+            <td className="py-1 px-2">{doc.authorised}</td>
           </tr>
         )
       })}
     </tbody>
   </table>
-  </div>
-)}
-</div>
-  
 </div>
 
   )
 }
 
-export default AdminAbsence
+export default TeamAbsenceRequest

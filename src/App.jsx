@@ -12,12 +12,13 @@ import Fail from './pages/Fail'
 import AdminAbsence from './pages/AdminAbsence'
 import { getUser } from './appwrite/auth'
 import { teams } from './appwrite/config'
+import TeamAbsenceRequest from './pages/TeamAbsenceRequest'
 
 function App() {
   const [user, setUser] = useState(null)
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [teamLeader, setTeamLeader] = useState(null)
   const [loading, setLoading] = useState(true)
-  const ADMIN_TEAM_ID = import.meta.env.VITE_ADMIN_TEAM_ID
+  const teamIds = JSON.parse(import.meta.env.VITE_TEAM_ID_JSON)
 
   useEffect(()=>{
     const init = async () => {
@@ -30,9 +31,14 @@ function App() {
         
         setUser(userData)
 
-        const memberships = await teams.listMemberships(ADMIN_TEAM_ID)
-        const inAdminTeam = memberships.memberships.some((m)=>m.userId===userData.$id)
-        setIsAdmin(inAdminTeam)
+        
+        const teamList = await teams.list()
+        const teamLeaderId = teamList.teams[0].$id
+
+        const value = teamIds[teamLeaderId]
+
+        setTeamLeader(value)
+        
       } catch (error) {
         console.error('Error initialising app', error)
       } finally {
@@ -48,14 +54,15 @@ function App() {
     <>
       
         <BrowserRouter>
-        <Header user={user} isAdmin={isAdmin} />
+        <Header user={user} teamLeader={teamLeader} />
           <Routes>
             <Route element={<Home />} path='/' />
             <Route element={<LoginPage />} path='login' />
             <Route element={<ProtectedRoutes />}>
               <Route element={<UserAbsence user={user} />} path='/UserAbsence' />  
-              <Route element={<AdminAbsence user={user} isAdmin={isAdmin} /> } path='/AdminAbsence' /> 
-            <Route element={<Form user={user} isAdmin={isAdmin} />} path='/form' />
+              <Route element={<AdminAbsence user={user} teamLeader={teamLeader} /> } path='/AdminAbsence' />
+              <Route element={<TeamAbsenceRequest user={user} teamLeader={teamLeader} /> } path='/TeamAbsence' /> 
+            <Route element={<Form user={user} teamLeader={teamLeader} />} path='/form' />
             </Route>
             
             <Route element={<Fail />} path='/fail' />
