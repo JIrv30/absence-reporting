@@ -2,8 +2,8 @@ import { account, OAuthProvider } from "./config";
 
 export const loginWithGoogle = async () => {
   try {
-    await account.createOAuth2Session(OAuthProvider.Google,'http://localhost:5173/userabsence',
-    'http://localhost:5173/fail'
+    await account.createOAuth2Session(OAuthProvider.Google,'http://https://kgabp-absence-reporting.netlify.app/userabsence',
+    'https://kgabp-absence-reporting.netlify.app/fail'
     )
   } catch (error) {
     console.error (error)
