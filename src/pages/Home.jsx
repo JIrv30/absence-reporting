@@ -1,10 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { loginWithGoogle } from '../appwrite/auth'
 import logo from '../assets/KGABP.png'
+import { getUser } from '../appwrite/auth'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 const Home = () => {
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+    const checkLogin = async () => {
+      try {
+        const user = await getUser()
+        if(user) {
+          navigate('userabsence')
+        }
+      } catch(error) {
+        console.error(error)
+      }
+    }
+    checkLogin()
+  },[])
+
   const handleLogin = async () => {
-    await loginWithGoogle()
+    
+    try {
+      await loginWithGoogle()
+    } catch (error) {
+      console.error(error)
+    }
+    
   }
 
   return (
