@@ -25,7 +25,7 @@ const ProtectedRoutes = () => {
   if (loading) return <p>Loading...</p>
   
   return (
-    user ? <Outlet /> : <Navigate to='/login' />
+    user ? <Outlet /> : <Navigate to='/' />
   )
 }
 

@@ -3,16 +3,15 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Header from './components/Header'
 import Form from './components/Form'
-import LoginPage from './pages/LoginPage'
 import ProtectedRoutes from './utils/ProtectedRoutes'
 import UserAbsence from './pages/UserAbsence'
 import Home from './pages/Home' 
-import OAuthCallback from './utils/OAuthCallback'
 import Fail from './pages/Fail'
 import AdminAbsence from './pages/AdminAbsence'
 import { getUser } from './appwrite/auth'
 import { teams } from './appwrite/config'
 import TeamAbsenceRequest from './pages/TeamAbsenceRequest'
+
 
 function App() {
   const [user, setUser] = useState(null)
@@ -57,7 +56,6 @@ function App() {
         <Header user={user} teamLeader={teamLeader} />
           <Routes>
             <Route element={<Home />} path='/' />
-            <Route element={<LoginPage />} path='login' />
             <Route element={<ProtectedRoutes />}>
               <Route element={<UserAbsence user={user} />} path='/UserAbsence' />  
               <Route element={<AdminAbsence user={user} teamLeader={teamLeader} /> } path='/AdminAbsence' />

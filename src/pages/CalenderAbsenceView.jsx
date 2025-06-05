@@ -8,7 +8,6 @@ import {
   addMonths,
   subMonths
 } from "date-fns";
-import db from '../appwrite/databases';
 
 const CalendarAbsenceView = ({ user, teamLeader, absence }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
