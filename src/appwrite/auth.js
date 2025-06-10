@@ -14,6 +14,7 @@ export const loginWithGoogle = async () => {
 export const logOutUser = async () => {
   try {
     await account.deleteSession('current')
+    window.location.href = 'https://kgabp-absence-reporting.netlify.app'
   } catch (error) {
     console.error(error)
   }
