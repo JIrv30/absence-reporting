@@ -72,7 +72,7 @@ const AdminAbsence = ({ user, teamLeader }) => {
           {calendarView ? "View Table" : "View Calendar"}
         </button>
 
-        <div className="flex justify-between items-center my-4">
+        {!calendarView && <div className="flex justify-between items-center my-4">
           <button
             onClick={() =>
               setCurrentYear((prev) =>
@@ -96,7 +96,7 @@ const AdminAbsence = ({ user, teamLeader }) => {
         >
           Next ▶
         </button>
-      </div>
+      </div>}
 
         {calendarView ? (
           <CalendarAbsenceView

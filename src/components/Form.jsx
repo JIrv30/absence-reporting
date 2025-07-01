@@ -8,6 +8,9 @@ const Form = ({user}) => {
   const [loading, setLoading] = useState(true)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(null)
+  const maxChars = 255
+  
+  const tooManyChars = (formData.reason || '').length > 255 ? 'text-red-500' : 'text-blue-500'
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -117,7 +120,16 @@ const Form = ({user}) => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700">Reason for Absence</label>
-          <input name="reason" value={formData.reason || ''} onChange={handleChange} className="w-full mt-1 p-2 border rounded-md" required />
+          <textarea 
+            name="reason" 
+            value={formData.reason || ''} 
+            onChange={handleChange} 
+            placeholder='Add a reason for your absence here'
+            className="w-full mt-1 p-2 border rounded-md" required />
+            <div
+              className={`text-sm text-right text-[#0077] mt-1 ${tooManyChars}`}>
+                {(formData.reason || '').length}/{maxChars}
+            </div>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">

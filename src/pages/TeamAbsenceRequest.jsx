@@ -1,14 +1,32 @@
 import React, { useEffect, useState } from "react";
 import db from '../appwrite/databases';
+import { Query } from "appwrite";
 
 const TeamAbsenceRequest = ({user, teamLeader}) => {
   const [absence, setAbsence] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   const init = async () => {
+  //     try {
+  //       const response = await db["Leave of Absence Request Collection"].list();
+  //       setAbsence(response.documents);
+  //     } catch (err) {
+  //       console.error("Failed to fetch data", err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   init();
+  // }, []);
+
   useEffect(() => {
-    const init = async () => {
+    const fetchAbsences = async () => {
       try {
-        const response = await db["Leave of Absence Request Collection"].list();
+        const response = await db["Leave of Absence Request Collection"].list([
+          Query.orderAsc("absence_start"),
+          Query.limit(1000),
+        ]);
         setAbsence(response.documents);
       } catch (err) {
         console.error("Failed to fetch data", err);
@@ -16,7 +34,7 @@ const TeamAbsenceRequest = ({user, teamLeader}) => {
         setLoading(false);
       }
     };
-    init();
+    fetchAbsences();
   }, []);
 
   if (loading) return <div>Loading...</div>;
