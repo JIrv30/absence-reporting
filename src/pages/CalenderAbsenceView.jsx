@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   startOfMonth,
   endOfMonth,
@@ -12,6 +12,21 @@ import {
 const CalendarAbsenceView = ({ user, teamLeader, absence }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [calendarDays, setCalendarDays] = useState([]);
+  const [alignRight, setAlignRight] = useState(true)
+  const circleRef = useRef()
+
+  const checkOverflow = () => {
+    const tooltipWidth = 240
+    const buffer = 20
+    const rect = circleRef.current?.getBoundClinetReact()
+
+    if (!rect) return
+
+    const spaceRight = window.innerWidth - rect.right
+    const spaceLeft = rect.left
+
+    setAlignRight(spaceRight => tooltipWidth + buffer || spaceLeft < tooltip)
+  }
 
   useEffect(() => {
     const start = startOfMonth(currentMonth);
@@ -61,7 +76,7 @@ const CalendarAbsenceView = ({ user, teamLeader, absence }) => {
         </button>
       </div>
 
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7 gap-2 relative overflow-visible">
         {calendarDays.map(day => {
           const dateKey = format(day, 'yyyy-MM-dd');
           const absentees = dayMap[dateKey] || [];
@@ -69,7 +84,7 @@ const CalendarAbsenceView = ({ user, teamLeader, absence }) => {
           return (
             <div
               key={dateKey}
-              className="border p-2 rounded shadow-sm h-28 overflow-hidden relative bg-white"
+              className="border p-2 rounded shadow-sm min-h-28 relative bg-white"
             >
               <div className="text-xs font-semibold text-gray-700">
                 {format(day, 'd MMM')}
@@ -105,9 +120,36 @@ const CalendarAbsenceView = ({ user, teamLeader, absence }) => {
               )}
 
               {absentees.length > 5 && (
-                <div className="absolute bottom-2 right-2 bg-purple-400 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                <div ref={circleRef} className="absolute bottom-2 right-2 group z-30">
+                  <div
+                    className="bg-purple-400 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs cursor-pointer relative z-30">
                   {absentees.length}
+                  
+
+                  <div className="absolute top-full mt-2 right-0 group-hover:flex hidden flex-col bg-white border border-gray-300 rounded-md shadow-xl p-2 text-xs w-60 z-50">
+                    <ul className="space-y-1 max-h-64 overflow-y-auto">
+                      {absentees.map((doc, index)=>{
+                        const statusColor = 
+                        doc.authorised === 'Authorised'
+                        ? 'text-green-600'
+                        : doc.authorised === 'Rejected'
+                        ? 'text-red-600'
+                        : 'text-orange-600'
+
+                        return (
+                          <li 
+                            key={index}
+                            className={`font-medium ${statusColor}`}
+                          >
+                            {doc.name}
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </div>
                 </div>
+              </div>
+                
               )}
             </div>
           );

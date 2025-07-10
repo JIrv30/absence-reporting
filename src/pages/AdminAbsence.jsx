@@ -63,7 +63,7 @@ const AdminAbsence = ({ user, teamLeader }) => {
   if (!user || teamLeader !== "Admin") return <div>Access Denied</div>;
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto overflow-y-auto max-h-screen">
       <div className="mb-4">
         <button
           onClick={() => setCalendarView((prev) => !prev)}
@@ -130,11 +130,10 @@ const AdminAbsence = ({ user, teamLeader }) => {
                 </button>
 
                 <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    isOpen ? "max-h-[1000px]" : "max-h-0"
-                  }`}
+                  className={`transition-all duration-300 ease-in-out`}
                 >
                   {isOpen && (
+                    <div className="mah-h-[400px] overflow-y-auto transition-all duration-300 ease-in-out">
                     <table className="min-w-full table-auto text-xs mt-2">
                       <thead className="bg-gray-100 text-gray-700">
                         <tr>
@@ -233,6 +232,7 @@ const AdminAbsence = ({ user, teamLeader }) => {
                         })}
                       </tbody>
                     </table>
+                    </div>
                   )}
                 </div>
               </div>
