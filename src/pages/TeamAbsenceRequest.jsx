@@ -6,20 +6,6 @@ const TeamAbsenceRequest = ({user, teamLeader}) => {
   const [absence, setAbsence] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const init = async () => {
-  //     try {
-  //       const response = await db["Leave of Absence Request Collection"].list();
-  //       setAbsence(response.documents);
-  //     } catch (err) {
-  //       console.error("Failed to fetch data", err);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   init();
-  // }, []);
-
   useEffect(() => {
     const fetchAbsences = async () => {
       try {
@@ -41,7 +27,7 @@ const TeamAbsenceRequest = ({user, teamLeader}) => {
 
   if (!teamLeader) return <div>Access Denied</div>;
 
-  const filteredTeamAbsence = absence.filter((doc) => doc.department === teamLeader);
+  const filteredTeamAbsence = absence.filter((doc) => doc.department.toLowerCase() === teamLeader);
   
   
   return (

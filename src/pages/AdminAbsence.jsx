@@ -28,6 +28,10 @@ const AdminAbsence = ({ user, teamLeader }) => {
     fetchAbsences();
   }, []);
 
+  // useEffect(()=>{
+  //     console.log(absence[0]?.department.toLowerCase())
+  //   },[absence])
+
   const handleStatusChange = async (id, newStatus) => {
     try {
       await db["Leave of Absence Request Collection"].update(id, {
@@ -60,7 +64,7 @@ const AdminAbsence = ({ user, teamLeader }) => {
   };
 
   if (loading) return <div>Loading...</div>;
-  if (!user || teamLeader !== "Admin") return <div>Access Denied</div>;
+  if (!user || teamLeader !== "admin") return <div>Access Denied</div>;
 
   return (
     <div className="overflow-x-auto overflow-y-auto max-h-screen">

@@ -36,7 +36,11 @@ function App() {
 
         const value = teamIds[teamLeaderId]
 
-        setTeamLeader(value)
+        console.log(value.toLowerCase())
+
+        setTeamLeader(value.toLowerCase())
+
+        
         
       } catch (error) {
         console.error('Error initialising app', error)
@@ -46,6 +50,10 @@ function App() {
     }
     init()
   },[])
+
+  useEffect(()=>{
+    console.log(teamLeader)
+  },[teamLeader])
 
   if(loading) return <div>Loading App...</div>
 
