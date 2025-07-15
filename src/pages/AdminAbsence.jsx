@@ -28,9 +28,7 @@ const AdminAbsence = ({ user, teamLeader }) => {
     fetchAbsences();
   }, []);
 
-  // useEffect(()=>{
-  //     console.log(absence[0]?.department.toLowerCase())
-  //   },[absence])
+
 
   const handleStatusChange = async (id, newStatus) => {
     try {

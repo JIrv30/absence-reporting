@@ -36,7 +36,7 @@ function App() {
 
         const value = teamIds[teamLeaderId]
 
-        console.log(value.toLowerCase())
+        // console.log(value.toLowerCase())
 
         setTeamLeader(value.toLowerCase())
 
@@ -50,10 +50,6 @@ function App() {
     }
     init()
   },[])
-
-  useEffect(()=>{
-    console.log(teamLeader)
-  },[teamLeader])
 
   if(loading) return <div>Loading App...</div>
 

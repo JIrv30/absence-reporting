@@ -40,9 +40,9 @@ const Header = ({ user, teamLeader }) => {
           )}
 
           {teamLeader && (
-            <Link to={teamLeader === 'Admin' ? '/Adminabsence' : '/Teamabsence'}>
+            <Link to={teamLeader === 'admin' ? '/Adminabsence' : '/Teamabsence'}>
               <button className="bg-[#023E8A] hover:bg-[#0077B6] text-white font-medium py-2 px-4 rounded-lg transition">
-                {teamLeader === 'Admin' ? 'All Requests' : 'Team Requests'}
+                {teamLeader === 'admin' ? 'All Requests' : 'Team Requests'}
               </button>
             </Link>
           )}

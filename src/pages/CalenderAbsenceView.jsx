@@ -37,7 +37,7 @@ const CalendarAbsenceView = ({ user, teamLeader, absence }) => {
   const handlePrevMonth = () => setCurrentMonth(prev => subMonths(prev, 1));
   const handleNextMonth = () => setCurrentMonth(prev => addMonths(prev, 1));
 
-  if (!user || teamLeader !== 'Admin') return <div>Access Denied</div>;
+  if (!user || teamLeader !== 'admin') return <div>Access Denied</div>;
 
   // Group absences by date
   const dayMap = {};
