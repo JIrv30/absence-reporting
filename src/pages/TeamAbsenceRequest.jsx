@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import db from '../appwrite/databases';
 import { Query } from "appwrite";
 
-const TeamAbsenceRequest = ({user, teamLeader}) => {
+const TeamAbsenceRequest = ({ teamLeader }) => {
   const [absence, setAbsence] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -46,6 +46,7 @@ const TeamAbsenceRequest = ({user, teamLeader}) => {
         <th className="text-left py-1 px-2">Appt</th>
         <th className="text-left py-1 px-2">TOIL</th>
         <th className="text-left py-1 px-2">Auth?</th>
+        <th className="text-left py-1 px-2">Decision Notes</th>
       </tr>
     </thead>
     <tbody>
@@ -83,6 +84,9 @@ const TeamAbsenceRequest = ({user, teamLeader}) => {
             </td>
             <td className="py-1 px-2">{doc.toil_details}</td>
             <td className="py-1 px-2">{doc.authorised}</td>
+            <td className="py-1 px-2 whitespace-pre-wrap">
+              {doc.decision_notes || '-'}
+            </td>
           </tr>
         )
       })}
