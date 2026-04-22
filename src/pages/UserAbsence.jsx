@@ -440,12 +440,12 @@ function AbsenceRequestTable({ user }) {
                                 </p>
                               </div>
 
-                              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                              {/* <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
                                 <p className="text-sm font-medium text-slate-700">Decision notes</p>
                                 <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-800">
                                   {doc.decision_notes || "No note has been added to this request."}
                                 </p>
-                              </div>
+                              </div> */}
 
                               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
                                 <div className="flex items-center gap-2">
