@@ -11,6 +11,8 @@ import {
 import db from "../appwrite/databases";
 import CalendarAbsenceView from "./CalenderAbsenceView";
 
+const PAGE_SIZE = 100;
+
 const statusOptions = ["Pending", "Authorised", "Rejected"];
 
 const statusBadgeClasses = {
@@ -86,12 +88,30 @@ const AdminAbsence = ({ user, teamLeader }) => {
   useEffect(() => {
     const fetchAbsences = async () => {
       try {
-        const response = await db["Leave of Absence Request Collection"].list([
-          Query.orderAsc("absence_start"),
-          Query.limit(1000),
-        ]);
+        const documents = [];
+        let cursor = null;
+        let hasMore = true;
 
-        const documents = response.documents;
+        while (hasMore) {
+          const queries = [
+            Query.orderAsc("absence_start"),
+            Query.limit(PAGE_SIZE),
+          ];
+
+          if (cursor) {
+            queries.push(Query.cursorAfter(cursor));
+          }
+
+          const response = await db["Leave of Absence Request Collection"].list(queries);
+          documents.push(...response.documents);
+
+          if (response.documents.length < PAGE_SIZE) {
+            hasMore = false;
+          } else {
+            cursor = response.documents[response.documents.length - 1].$id;
+          }
+        }
+
         setAbsence(documents);
         setReviewDrafts(buildDraftState(documents));
 
